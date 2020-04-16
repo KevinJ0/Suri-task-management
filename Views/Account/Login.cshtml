@@ -1,0 +1,45 @@
+﻿@model Suri.DTO.LoginDTO
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+<div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+        <div class="card w-50 " style="margin-top: 6%;">
+            <div class="card-header bg-primary" style="color:white">Login Administrador</div>
+            <div class="card-body">
+                <form asp-controller="Empleados" asp-action="Login">
+                    <div class="form-group">
+                        <label asp-for="UserName">Usuario:</label>
+                        <input asp-for="UserName" type="text" class="form-control" id="InputUserName">
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Password">Contraseña:</label>
+                        <input asp-for="Password" class="form-control" id="InputPassword">
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    @if (ViewBag.ErrorInicioSeccion != null)
+                    {
+                <div class="alert-danger"><p>@ViewBag.ErrorInicioSeccion</p></div>}
+                    <!--<div class="form-group">
+                    <div class="custom-checkbox">
+                        <label asp-for="RememberMe">
+                            <input asp-for="RememberMe" />
+                            add arroba Html.DisplayNameFor(m => m.RememberMe)
+                        </label>
+                        </div>
+                    </div>-->
+
+                    <button type="submit" class="btn btn-primary">Acceder</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
