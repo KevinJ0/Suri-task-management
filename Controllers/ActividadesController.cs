@@ -19,7 +19,12 @@ namespace Suri.Controllers
         }
 
         // GET: Actividades
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> ActividadesAsignadas()
+        {
+            var suriDbContext = _context.Actividades.Include(a => a.Localidad).Include(a => a.MyUser);
+            return View(await suriDbContext.ToListAsync());
+        }
+        public async Task<IActionResult> ActividadesRealizadas()
         {
             var suriDbContext = _context.Actividades.Include(a => a.Localidad).Include(a => a.MyUser);
             return View(await suriDbContext.ToListAsync());
@@ -65,7 +70,7 @@ namespace Suri.Controllers
             {
                 _context.Add(actividades);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(ActividadesAsignadas));
             }
             ViewData["LocalidadId"] = new SelectList(_context.Set<Localidades>(), "Id", "Nombre", actividades.LocalidadId);
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", actividades.UserId);
@@ -86,7 +91,7 @@ namespace Suri.Controllers
                 return NotFound();
             }
             ViewData["LocalidadId"] = new SelectList(_context.Set<Localidades>(), "Id", "Nombre", actividades.LocalidadId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", actividades.UserId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", actividades.UserId);
             return View(actividades);
         }
 
@@ -120,10 +125,11 @@ namespace Suri.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(ActividadesAsignadas));
             }
             ViewData["LocalidadId"] = new SelectList(_context.Set<Localidades>(), "Id", "Nombre", actividades.LocalidadId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", actividades.UserId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", actividades.UserId);
+
             return View(actividades);
         }
 
@@ -155,7 +161,7 @@ namespace Suri.Controllers
             var actividades = await _context.Actividades.FindAsync(id);
             _context.Actividades.Remove(actividades);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(ActividadesAsignadas));
         }
 
         private bool ActividadesExists(int id)
