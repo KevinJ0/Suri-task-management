@@ -9,78 +9,90 @@
 <p>
     <a asp-action="Create">Nueva actividad</a>
 </p>
+@if (Model.Any())
+{
+    <table class="table ">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Actividad)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FechaAsignacion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nota)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Asistente)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FechaRealizacion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.accion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Prioridad)
+                </th>
 
-<table class="table ">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Actividad)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaAsignacion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Nota)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Asistente)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaRealizacion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.accion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Prioridad)
-            </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Localidad)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MyUser)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Actividad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaAsignacion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nota)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Asistente)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaRealizacion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.accion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Prioridad.Name)
+                    </td>
 
-            <th>
-                @Html.DisplayNameFor(model => model.Localidad)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MyUser)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Where(x=> x.Estado == true)) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Actividad)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaAsignacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nota)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Asistente)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaRealizacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.accion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Prioridad)
-            </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Localidad.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MyUser.UserName)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.Localidad.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MyUser.UserName)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+            }
+        </tbody>
+    </table>
 }
-    </tbody>
-</table>
+else
+{
+    <div class="card mt-3">
+        <div class="card-body">
+            <h3>No hay actividades completadas</h3>
+        </div>
+    </div>
+
+}

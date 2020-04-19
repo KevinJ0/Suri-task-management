@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Suri.Models;
 
 namespace Suri.Migrations
 {
     [DbContext(typeof(SuriDbContext))]
-    partial class SuriDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200419002553_uptatedPrioridad1")]
+    partial class uptatedPrioridad1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

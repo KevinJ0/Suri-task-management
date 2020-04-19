@@ -44,9 +44,9 @@
                 <span asp-validation-for="accion" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
-                <span asp-validation-for="UserId" class="text-danger"></span>
+                <label asp-for="MyUserId" class="control-label"></label>
+                <select asp-for="MyUserId" class="form-control" asp-items="ViewBag.MyUserId"></select>
+                <span asp-validation-for="MyUserId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="LocalidadId" class="control-label"></label>
@@ -54,18 +54,21 @@
                 <span asp-validation-for="LocalidadId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Prioridad" class="control-label"></label>
-                <input asp-for="Prioridad" class="form-control" />
-                <span asp-validation-for="Prioridad" class="text-danger"></span>
+                <label asp-for="PrioridadId" class="control-label"></label>
+                <select asp-for="PrioridadId" class="form-control" asp-items="ViewBag.PrioridadId">
+                </select>
+                <span asp-validation-for="PrioridadId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <div class="custom-control custom-switch">
                     <input asp-for="Estado" type="checkbox" class="custom-control-input">
-                    <label asp-for="Estado" class="custom-control-label">Activo</label>
+                    <label asp-for="Estado" class="custom-control-label">Completado</label>
                     <span asp-validation-for="Estado" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-group">
+                <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
@@ -73,7 +76,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a href='javascript:history.go(-1)'>Back to List</a>
 </div>
 
 @section Scripts {

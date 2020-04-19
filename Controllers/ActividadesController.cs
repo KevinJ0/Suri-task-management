@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using Suri.Models;
 
 namespace Suri.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ActividadesController : Controller
     {
         private readonly SuriDbContext _context;
@@ -19,14 +21,16 @@ namespace Suri.Controllers
         }
 
         // GET: Actividades
+        
         public async Task<IActionResult> ActividadesAsignadas()
         {
-            var suriDbContext = _context.Actividades.Include(a => a.Localidad).Include(a => a.MyUser);
+            var suriDbContext = _context.Actividades.Include(a => a.Localidad).Include(a => a.MyUser).Include(a => a.Prioridad).Where(x => x.Estado == false);
+
             return View(await suriDbContext.ToListAsync());
         }
         public async Task<IActionResult> ActividadesRealizadas()
         {
-            var suriDbContext = _context.Actividades.Include(a => a.Localidad).Include(a => a.MyUser);
+            var suriDbContext = _context.Actividades.Include(a => a.Localidad).Include(a => a.MyUser).Include(a => a.Prioridad).Where(x => x.Estado == true);
             return View(await suriDbContext.ToListAsync());
         }
 
@@ -41,6 +45,7 @@ namespace Suri.Controllers
             var actividades = await _context.Actividades
                 .Include(a => a.Localidad)
                 .Include(a => a.MyUser)
+                .Include(a => a.Prioridad)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (actividades == null)
             {
@@ -54,7 +59,8 @@ namespace Suri.Controllers
         public IActionResult Create()
         {
             ViewData["LocalidadId"] = new SelectList(_context.Set<Localidades>(), "Id", "Nombre");
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName");
+            ViewData["MyUserId"] = new SelectList(_context.Users, "Id", "UserName");
+            ViewData["PrioridadId"] = new SelectList(_context.Prioridades.OrderByDescending(x => x.Id), "Id", "Name");
             return View();
         }
 
@@ -73,7 +79,9 @@ namespace Suri.Controllers
                 return RedirectToAction(nameof(ActividadesAsignadas));
             }
             ViewData["LocalidadId"] = new SelectList(_context.Set<Localidades>(), "Id", "Nombre", actividades.LocalidadId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", actividades.UserId);
+            ViewData["MyUserId"] = new SelectList(_context.Users, "Id", "UserName", actividades.MyUserId);
+            ViewData["PrioridadId"] = new SelectList(_context.Prioridades.OrderByDescending(x => x.Id), "Id", "Name");
+                
             return View(actividades);
         }
 
@@ -91,7 +99,10 @@ namespace Suri.Controllers
                 return NotFound();
             }
             ViewData["LocalidadId"] = new SelectList(_context.Set<Localidades>(), "Id", "Nombre", actividades.LocalidadId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", actividades.UserId);
+            ViewData["MyUserId"] = new SelectList(_context.Users, "Id", "UserName", actividades.MyUserId);
+            ViewData["PrioridadId"] = new SelectList(_context.Prioridades.OrderByDescending(x => x.Id), "Id", "Name");
+            ViewBag.returnUrl = Request.Headers["Referer"].ToString();
+
             return View(actividades);
         }
 
@@ -100,7 +111,7 @@ namespace Suri.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Actividad,FechaAsignacion,Nota,Asistente,FechaRealizacion,Action,UserId,LocalidadId,Prioridad,Estado")] Actividades actividades)
+        public async Task<IActionResult> Edit(int id, string returnUrl, Actividades actividades)
         {
             if (id != actividades.Id)
             {
@@ -125,10 +136,11 @@ namespace Suri.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(ActividadesAsignadas));
+                return Redirect(returnUrl);
             }
             ViewData["LocalidadId"] = new SelectList(_context.Set<Localidades>(), "Id", "Nombre", actividades.LocalidadId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", actividades.UserId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", actividades.MyUserId);
+            ViewData["PrioridadId"] = new SelectList(_context.Prioridades.OrderByDescending(x => x.Id), "Id", "Name");
 
             return View(actividades);
         }
@@ -144,6 +156,7 @@ namespace Suri.Controllers
             var actividades = await _context.Actividades
                 .Include(a => a.Localidad)
                 .Include(a => a.MyUser)
+                .Include(a => a.Prioridad)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (actividades == null)
             {

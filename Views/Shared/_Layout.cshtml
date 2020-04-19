@@ -42,13 +42,18 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Actividades</a>
                         <div class="dropdown-menu">
-                    
-                        <a asp-controller="Actividades" asp-action="Create" class="dropdown-item">Asignar Nueva Actividad</a>
-                  
-                        <a asp-controller="Actividades" asp-action="Index" class="dropdown-item">Registro de Actividades</a>
-                    </div>
+                            <a asp-controller="Actividades" asp-action="Create" class="dropdown-item">Asignar Nueva Actividad</a>
+                            <a asp-controller="Actividades" asp-action="ActividadesAsignadas" class="dropdown-item">Actividades Asignadas</a>
+                            <a asp-controller="Actividades" asp-action="ActividadesRealizadas" class="dropdown-item">Actividades Realizadas</a>
+                        </div>
                     </li>
-
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Localidades</a>
+                        <div class="dropdown-menu">
+                            <a asp-controller="Localidades" asp-action="Create" class="dropdown-item">Agregar Localidad</a>
+                            <a asp-controller="Localidades" asp-action="Index" class="dropdown-item">Lista de Localidades</a>
+                        </div>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Administración</a>
                         <div class="dropdown-menu">

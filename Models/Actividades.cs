@@ -22,7 +22,7 @@ namespace Suri.Models
         public DateTime? FechaRealizacion { get; set; }
         [DisplayName("Acción")]
         public string accion { get; set; }
-        public string UserId { get; set; }
+        public string MyUserId { get; set; }
         public int LocalidadId { get; set; }
         public int PrioridadId { get; set; }
         public bool Estado { set; get; }
