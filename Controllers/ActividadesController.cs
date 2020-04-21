@@ -10,7 +10,8 @@ using Suri.Models;
 
 namespace Suri.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    
+
     public class ActividadesController : Controller
     {
         private readonly SuriDbContext _context;
@@ -21,20 +22,36 @@ namespace Suri.Controllers
         }
 
         // GET: Actividades
-        
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ActividadesAsignadas()
         {
             var suriDbContext = _context.Actividades.Include(a => a.Localidad).Include(a => a.MyUser).Include(a => a.Prioridad).Where(x => x.Estado == false);
 
             return View(await suriDbContext.ToListAsync());
         }
+
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ActividadesRealizadas()
         {
             var suriDbContext = _context.Actividades.Include(a => a.Localidad).Include(a => a.MyUser).Include(a => a.Prioridad).Where(x => x.Estado == true);
             return View(await suriDbContext.ToListAsync());
         }
 
-        // GET: Actividades/Details/5
+        [Authorize(Roles = "Tecnico")]
+        public async Task<IActionResult> ActividadesAsignadasTecnico()
+        {
+            var suriDbContext = _context.Actividades.Include(a => a.Localidad).Include(a => a.MyUser).Include(a => a.Prioridad).Where(x => x.Estado == false);
+            return View(await suriDbContext.ToListAsync());
+        }
+
+        [Authorize(Roles = "Tecnico")]
+        public async Task<IActionResult> ActividadesRealizadasTecnico()
+        {
+            var suriDbContext = _context.Actividades.Include(a => a.Localidad).Include(a => a.MyUser).Include(a => a.Prioridad).Where(x => x.Estado == true);
+            return View(await suriDbContext.ToListAsync());
+        }
+
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -55,7 +72,8 @@ namespace Suri.Controllers
             return View(actividades);
         }
 
-        // GET: Actividades/Create
+        [Authorize(Roles = "Admin")]
+
         public IActionResult Create()
         {
             ViewData["LocalidadId"] = new SelectList(_context.Set<Localidades>(), "Id", "Nombre");
@@ -64,9 +82,8 @@ namespace Suri.Controllers
             return View();
         }
 
-        // POST: Actividades/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Actividades actividades)
@@ -85,7 +102,7 @@ namespace Suri.Controllers
             return View(actividades);
         }
 
-        // GET: Actividades/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -106,9 +123,8 @@ namespace Suri.Controllers
             return View(actividades);
         }
 
-        // POST: Actividades/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, string returnUrl, Actividades actividades)
@@ -145,7 +161,7 @@ namespace Suri.Controllers
             return View(actividades);
         }
 
-        // GET: Actividades/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -162,19 +178,20 @@ namespace Suri.Controllers
             {
                 return NotFound();
             }
+            ViewBag.returnUrl = Request.Headers["Referer"].ToString();
 
             return View(actividades);
         }
 
-        // POST: Actividades/Delete/5
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, string returnUrl)
         {
             var actividades = await _context.Actividades.FindAsync(id);
             _context.Actividades.Remove(actividades);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(ActividadesAsignadas));
+            return Redirect(returnUrl);
         }
 
         private bool ActividadesExists(int id)

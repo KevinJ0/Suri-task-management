@@ -26,63 +26,91 @@
 <body>
     <header>
 
-        <nav class="navbar navbar-expand-sm bg-dark navbar-dark" style="width: 100%;">
-            <ul class="navbar-nav">
-
-                <li class="nav-item  ">
-                    <a asp-action="Index" asp-controller="Home" class="navbar-brand">
-                        Suri
-                    </a>
-                </li>
-            </ul>
-            <ul class="navbar-nav ml-auto float-lg-right">
-
-                @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
-                {
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Actividades</a>
-                        <div class="dropdown-menu">
-                            <a asp-controller="Actividades" asp-action="Create" class="dropdown-item">Asignar Nueva Actividad</a>
-                            <a asp-controller="Actividades" asp-action="ActividadesAsignadas" class="dropdown-item">Actividades Asignadas</a>
-                            <a asp-controller="Actividades" asp-action="ActividadesRealizadas" class="dropdown-item">Actividades Realizadas</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Localidades</a>
-                        <div class="dropdown-menu">
-                            <a asp-controller="Localidades" asp-action="Create" class="dropdown-item">Agregar Localidad</a>
-                            <a asp-controller="Localidades" asp-action="Index" class="dropdown-item">Lista de Localidades</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Administración</a>
-                        <div class="dropdown-menu">
-                            <a asp-controller="Empleados" asp-action="ListUsers" class="dropdown-item">Lista de Empleados</a>
-                            <a asp-controller="Empleados" asp-action="ListRoles" class="dropdown-item">Lista de Roles</a>
-                        </div>
-                    </li>
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark " data-toggle="collapse" and data-target="#thetarget" style="width: 100%;">
 
 
-                }
-                @if (SignInManager.IsSignedIn(User))
-                {
+            <a asp-action="Index" asp-controller="Home" class="navbar-brand" id="title">
+                Suri
+            </a>
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+
+
+                <div class="collapse navbar-collapse " id="collapsibleNavbar">
+                    <ul class="navbar-nav ml-auto float-lg-right mt-5 mb-5" id="menu-content">
+
+
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                        {
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle " data-toggle="dropdown" href="#">Actividades</a>
+                                <div class="dropdown-menu">
+                                    <a asp-controller="Actividades" asp-action="Create" class="dropdown-item">Asignar Nueva Actividad</a>
+                                    <a asp-controller="Actividades" asp-action="ActividadesAsignadas" class="dropdown-item">Actividades Asignadas</a>
+                                    <a asp-controller="Actividades" asp-action="ActividadesRealizadas" class="dropdown-item">Actividades Realizadas</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Localidades</a>
+                                <div class="dropdown-menu">
+                                    <a asp-controller="Localidades" asp-action="Create" class="dropdown-item">Agregar Localidad</a>
+                                    <a asp-controller="Localidades" asp-action="Index" class="dropdown-item">Lista de Localidades</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Administración</a>
+                                <div class="dropdown-menu">
+                                    <a asp-controller="Empleados" asp-action="ListUsers" class="dropdown-item">Lista de Empleados</a>
+                                    <a asp-controller="Empleados" asp-action="ListRoles" class="dropdown-item">Lista de Roles</a>
+                                </div>
+                            </li>
+
+
+                        }
+                        else if (SignInManager.IsSignedIn(User) && User.IsInRole("Tecnico"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Mis Actividades</a>
+                                <div class="dropdown-menu">
+                                    <a asp-controller="Actividades" asp-action="ActividadesAsignadasTecnico" class="dropdown-item">Actividades Asignadas</a>
+                                    <a asp-controller="Actividades" asp-action="ActividadesRealizadasTecnico" class="dropdown-item">Actividades Realizadas</a>
+                                </div>
+                            </li>
+
+                        }
+
+                </ul>
+                    <ul class="navbar-nav">
+
+
+                        <li class="nav-item">
+                            <a asp-controller="Account" asp-action="Logout" class="nav-link btn btn-link ml-lg-5 bg-danger text-light btn-sm" style="width:auto">
+                                Cerrar Sesión @User.Identity.Name
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+
+            }
+            else
+            {
+                <ul class="navbar-nav ml-auto float-lg-right">
+
                     <li class="nav-item">
-                        <a asp-controller="Account" asp-action="Logout" class="nav-link btn btn-link ml-lg-5 " style="width:auto">
-                            Cerrar Sesión @User.Identity.Name
-                        </a>
-                    </li>
-                }
-                else
-                {
-                    <li class="nav-item">
-                        <a asp-controller="Account" asp-action="Login" class="nav-link btn btn-link float-right" style="width:auto">
+                        <a asp-controller="Account" asp-action="Login" class="nav-link btn btn-link bg-primary text-light btn-sm pl-3 pr-3" style="width:auto">
                             Login
                         </a>
                     </li>
-                }
+                </ul>
 
 
-            </ul>
+            }
         </nav>
     </header>
 
@@ -102,7 +130,7 @@
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
     </environment>
-    <environment exclude="Development" >
+    <environment exclude="Development">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
                 asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
                 asp-fallback-test="window.jQuery"
@@ -122,6 +150,18 @@
             $('.custom-file-input').on("change", function () {
                 var fileName = $(this).val().split("\\").pop();
                 $(this).next('.custom-file-label').html(fileName);
+            });
+        });
+    </script>
+
+    <script>
+        // funcion del buscador
+        $(document).ready(function () {
+            $("#myInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
             });
         });
     </script>

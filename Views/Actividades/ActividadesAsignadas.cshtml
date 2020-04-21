@@ -9,9 +9,17 @@
 <p>
     <a asp-action="Create">Nueva actividad</a>
 </p>
+
+
 @if (Model.Any())
 {
-    <table class="table">
+
+    <h2>Filterable Table</h2>
+    <p>Type something in the input field to search the table for first names, last names or emails:</p>
+    <input class="form-control" id="myInput" type="text" placeholder="Search..">
+    <br>
+
+    <table class="table table-responsive">
         <thead>
             <tr>
                 <th>
@@ -32,33 +40,33 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="myTable">
 
-           @foreach (var item in Model)
+            @foreach (var item in Model)
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Actividad)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaAsignacion)
-                </td>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Actividad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaAsignacion)
+                    </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Prioridad.Name)
-                </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Prioridad.Name)
+                    </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Localidad.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MyUser.UserName)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Localidad.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MyUser.UserName)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>

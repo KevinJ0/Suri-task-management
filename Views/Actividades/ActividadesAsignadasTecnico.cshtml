@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Suri.Models.Actividades>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+<p>
+    <a asp-action="Create">Nueva actividad</a>
+</p>
+@if (Model.Any())
+{
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Actividad)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FechaAsignacion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Prioridad)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Localidad)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MyUser)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+           @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Actividad)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaAsignacion)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Prioridad.Name)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Localidad.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MyUser.UserName)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="card mt-3">
+        <div class="card-body">
+            <h3>No hay actividades pendientes</h3>
+        </div>
+    </div>
+
+}
