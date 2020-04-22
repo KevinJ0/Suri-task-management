@@ -4,63 +4,81 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-<p>
-    <a asp-action="Create">Nueva actividad</a>
-</p>
+
+<section class="jumbotron text-center bg-transparent">
+    <div class="container">
+        <h1 class="jumbotron-heading">Mis actividades pendientes</h1>
+        <p class="lead text-muted">En esta área encontraras todas las actividades que se te han asignado. Tienes la opción de terminar las actividades pendiente haciendo click en el botón de terminar actividad.</p>
+
+    </div>
+</section>
 @if (Model.Any())
 {
-    <table class="table table-responsive">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Actividad)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FechaAsignacion)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Prioridad)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Localidad)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MyUser)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
+    
 
-           @foreach (var item in Model)
-            {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Actividad)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaAsignacion)
-                </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Prioridad.Name)
-                </td>
+<div class="container " id="accordion">
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Localidad.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MyUser.UserName)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-            }
-        </tbody>
-    </table>
+    @foreach (var item in Model)
+    {
+        
+
+
+            var colorPrior = "badge badge-light";
+            var prioridad = item.PrioridadId;
+            if (prioridad == 3) {colorPrior = "badge badge-danger"; } else if (prioridad == 2) {colorPrior = "badge badge-warning"; } else {colorPrior = "badge badge-info"; }
+        
+        <div class="album py-5 bg-light">
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card mb-4 box-shadow">
+                            <div class="card-img-top justify-content-center d-flex align-items-center" style="height: 225px; width: 100%; " >
+                                @Html.DisplayFor(modelItem => item.Localidad.Nombre)
+                            </div>
+<div class="card-body">
+                                <div class="card-text text-sm-right"> <span class="">@Html.DisplayFor(modelItem => item.FechaAsignacion)</span></div>
+                                <p class="card-text">
+
+
+                                    @Html.DisplayNameFor(model => model.Actividad):
+                                    @Html.DisplayFor(modelItem => item.Actividad)
+                                    <br />
+
+                                    @Html.DisplayNameFor(model => model.Localidad):
+                                    @Html.DisplayFor(modelItem => item.Localidad.Nombre)
+                                    <br />
+
+                                    @Html.DisplayNameFor(model => model.MyUser):
+                                    @Html.DisplayFor(modelItem => item.MyUser.UserName)
+
+                                </p>
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <button asp-action="RealizarActividad"  asp-route-id="@item.Id" type="button" class="btn btn-sm btn-outline-secondary">Realizar actividad</button>
+                                    </div>
+                                    <small class="text-muted">
+                                        @Html.DisplayNameFor(model => model.Prioridad) 
+                                        <span class="@colorPrior">@Html.DisplayFor(modelItem => item.Prioridad.Name)</span>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+               
+
+
+    }
+</div>
+
 }
 else
 {

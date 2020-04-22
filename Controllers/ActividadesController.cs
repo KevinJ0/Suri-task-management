@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Suri.DTO;
 using Suri.Models;
 
 namespace Suri.Controllers
@@ -50,6 +51,34 @@ namespace Suri.Controllers
             var suriDbContext = _context.Actividades.Include(a => a.Localidad).Include(a => a.MyUser).Include(a => a.Prioridad).Where(x => x.Estado == true);
             return View(await suriDbContext.ToListAsync());
         }
+
+        [Authorize(Roles = "Tecnico")]
+        public async Task<IActionResult> RealizarActividad(int id)
+        {
+            var actividad = _context.Actividades.FindAsync(id);
+            if (actividad == null) {
+
+                return NotFound();
+            }
+
+            return View(actividad);
+        }
+
+        [Authorize(Roles = "Tecnico")]
+        public async Task<IActionResult> TerminarActividad(ActividadDTO dto)
+        {
+            if (ModelState.IsValid)
+            {
+
+
+            }
+            
+            var suriDbContext = _context.Actividades.Include(a => a.Localidad).Include(a => a.MyUser).Include(a => a.Prioridad).Where(x => x.Estado == true);
+
+
+            return View(dto);
+        }
+
 
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)

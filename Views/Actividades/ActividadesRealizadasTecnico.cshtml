@@ -11,6 +11,10 @@
 </p>
 @if (Model.Any())
 {
+
+    <h2>Buscador</h2>
+    <input class="form-control" id="myInput" type="text" placeholder="Buscar..">
+    <br>
     <table class="table table-responsive">
         <thead>
             <tr>
@@ -45,7 +49,7 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="myTable">
             @foreach (var item in Model)
             {
                 <tr>
