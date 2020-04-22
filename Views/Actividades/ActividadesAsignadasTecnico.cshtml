@@ -12,72 +12,75 @@
 
     </div>
 </section>
+
 @if (Model.Any())
 {
-    
 
 
-<div class="container " id="accordion">
 
-    @foreach (var item in Model)
-    {
-        
+    <div class="container-fluid" id="accordion">
+        <div class="album py-5 pl-3 pr-3 bg-light">
+
+            <div class="row ">
+                @foreach (var item in Model)
+                {
 
 
-            var colorPrior = "badge badge-light";
-            var prioridad = item.PrioridadId;
-            if (prioridad == 3) {colorPrior = "badge badge-danger"; } else if (prioridad == 2) {colorPrior = "badge badge-warning"; } else {colorPrior = "badge badge-info"; }
-        
-        <div class="album py-5 bg-light">
-            <div class="container">
 
-                <div class="row">
-                    <div class="col-md-4">
+                    var colorPrior = "badge badge-light";
+                    var prioridad = item.PrioridadId;
+                    if (prioridad == 3) { colorPrior = "badge badge-danger"; } else if (prioridad == 2) { colorPrior = "badge badge-warning"; } else { colorPrior = "badge badge-info"; }
+
+
+                    <div class="col-lg-4 m-auto" style="max-width: 427.66px;">
                         <div class="card mb-4 box-shadow">
-                            <div class="card-img-top justify-content-center d-flex align-items-center" style="height: 225px; width: 100%; " >
-                                @Html.DisplayFor(modelItem => item.Localidad.Nombre)
+                            <div class=" justify-content-center d-flex align-items-center" style="background-image: url('../imgs/location.jpg');  background-size:cover;  height: 225px; width: 100%; ">
+                                <h3 class="text-light" style="text-shadow: rgba(0,0,0, 0.3) 1px 3px 3px"><span>@Html.DisplayFor(modelItem => item.Localidad.Nombre)</span></h3>
                             </div>
-<div class="card-body">
-                                <div class="card-text text-sm-right"> <span class="">@Html.DisplayFor(modelItem => item.FechaAsignacion)</span></div>
-                                <p class="card-text">
+                            <div class="card-body">
+                                <div class="card-text text-right">
+                                    <span class="badge badge-pill badge-secondary">
+                                        @Html.DisplayFor(modelItem => item.FechaAsignacion)
+                                </span>
+                            </div>
+                            <p class="card-text mb-4 mt-0 mt-lg-3">
 
 
-                                    @Html.DisplayNameFor(model => model.Actividad):
-                                    @Html.DisplayFor(modelItem => item.Actividad)
-                                    <br />
+                                <b>@Html.DisplayNameFor(model => model.Actividad):</b>
+                                @Html.DisplayFor(modelItem => item.Actividad)
+                                <br />
 
-                                    @Html.DisplayNameFor(model => model.Localidad):
-                                    @Html.DisplayFor(modelItem => item.Localidad.Nombre)
-                                    <br />
 
+
+                            </p> <div class="d-flex justify-content-end">
+                                <small class="text-muted">
                                     @Html.DisplayNameFor(model => model.MyUser):
                                     @Html.DisplayFor(modelItem => item.MyUser.UserName)
+                                </small>
+                            </div>
+                            <div class="d-flex justify-content-end align-items-center">
 
-                                </p>
-
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button asp-action="RealizarActividad"  asp-route-id="@item.Id" type="button" class="btn btn-sm btn-outline-secondary">Realizar actividad</button>
-                                    </div>
-                                    <small class="text-muted">
-                                        @Html.DisplayNameFor(model => model.Prioridad) 
-                                        <span class="@colorPrior">@Html.DisplayFor(modelItem => item.Prioridad.Name)</span>
-                                    </small>
-                                </div>
+                                <small class="text-muted">
+                                    @Html.DisplayNameFor(model => model.Prioridad):
+                                    <span class="@colorPrior">@Html.DisplayFor(modelItem => item.Prioridad.Name)</span>
+                                </small>
+                            </div>
+                            <div class="btn-group">
+                                <button asp-action="RealizarActividad" asp-route-id="@item.Id" type="button" class="btn btn-sm btn-outline-secondary">Realizar actividad</button>
                             </div>
                         </div>
                     </div>
-
                 </div>
+
+
+
+
+
+            }
+
             </div>
         </div>
-
-
-               
-
-
-    }
-</div>
+    </div>
 
 }
 else
