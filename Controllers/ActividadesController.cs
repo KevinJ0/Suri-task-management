@@ -55,28 +55,40 @@ namespace Suri.Controllers
         [Authorize(Roles = "Tecnico")]
         public async Task<IActionResult> RealizarActividad(int id)
         {
-            var actividad = _context.Actividades.FindAsync(id);
-            if (actividad == null) {
+            var actividad = await _context.Actividades
+             .Include(a => a.Localidad)
+             .Include(a => a.MyUser)
+             .Include(a => a.Prioridad)
+             .FirstOrDefaultAsync(m => m.Id == id);
 
+            if (actividad == null) {
+                return NotFound();
+            }
+             return View(actividad);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Tecnico")]
+        public async Task<IActionResult> TerminarActividad(Actividades model)
+        {
+
+            var actividad = await _context.Actividades.FindAsync(model.Id);
+
+            if (actividad == null)
+            {
                 return NotFound();
             }
 
-            return View(actividad);
-        }
+            actividad.Asistente = model.Asistente;
+            actividad.FechaRealizacion = model.FechaRealizacion;
+            actividad.Nota = model.Nota;
+            actividad.accion = model.accion;
+            actividad.Estado = true;
 
-        [Authorize(Roles = "Tecnico")]
-        public async Task<IActionResult> TerminarActividad(ActividadDTO dto)
-        {
-            if (ModelState.IsValid)
-            {
-
-
-            }
-            
             var suriDbContext = _context.Actividades.Include(a => a.Localidad).Include(a => a.MyUser).Include(a => a.Prioridad).Where(x => x.Estado == true);
 
 
-            return View(dto);
+            return View(model);
         }
 
 

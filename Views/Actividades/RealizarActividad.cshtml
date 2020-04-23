@@ -1,19 +1,68 @@
-﻿@model Suri.DTO.ActividadDTO
+﻿@model Suri.Models.Actividades
 @{
-    Layout = null;
+   
 }
- 
+
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>RealizarActividad</title>
+    <title>Reporte de Actividad</title>
 </head>
 <body>
-    <form asp-action="TerminarActividad" method="post">
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="TerminarActividad" method="post">
 
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label class="control-label">Síntoma</label>
+                    <input value="@Model.Actividad" class="form-control" disabled/>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Fecha de asignación</label>
+                    <input class="form-control" value='@Model.FechaAsignacion.ToString("d")' disabled/>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Nota" class="control-label"></label>
+                    <textarea asp-for="Nota" class="form-control"></textarea>
 
+                    <span asp-validation-for="Nota" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Asistente" class="control-label"></label>
+                    <input asp-for="Asistente" class="form-control" />
+                    <span asp-validation-for="Asistente" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FechaRealizacion" class="control-label"></label>
+                    <input asp-for="FechaRealizacion" class="form-control" />
+                    <span asp-validation-for="FechaRealizacion" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="accion" class="control-label"></label>
+                    <input asp-for="accion" class="form-control" />
+                    <span asp-validation-for="accion" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Localidad" class="control-label">Localidad</label>
+                    <input value="@Model.Localidad.Nombre" class="form-control" disabled />
+                 </div>
+                <div class="form-group">
+                    <label class="control-label">Prioridad</label>
+                    <input value="@Model.Prioridad.Name" class="form-control" disabled/>
+                
+                </div>
+                <div class="form-group">
+                    <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
 
-
-    </form>
-
+                    <input type="submit" value="Enviar" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
-</html>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

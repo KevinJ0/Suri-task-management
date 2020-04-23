@@ -22,8 +22,11 @@ namespace Suri.Models
         public DateTime? FechaRealizacion { get; set; }
         [DisplayName("Acción")]
         public string accion { get; set; }
+        [DisplayName("Técnico encargado")]
         public string MyUserId { get; set; }
+        [DisplayName("Localidad")]
         public int LocalidadId { get; set; }
+        [DisplayName("Prioridad")]
         public int PrioridadId { get; set; }
         public bool Estado { set; get; }
 
