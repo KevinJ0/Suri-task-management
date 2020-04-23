@@ -76,19 +76,39 @@ namespace Suri.Controllers
 
             if (actividad == null)
             {
-                return NotFound();
-            }
+                    return NotFound();
+                }
+          
 
             actividad.Asistente = model.Asistente;
             actividad.FechaRealizacion = model.FechaRealizacion;
             actividad.Nota = model.Nota;
             actividad.accion = model.accion;
             actividad.Estado = true;
+            if (model.Asistente == null || model.FechaRealizacion == null || model.accion == null)
+            {
+                return RedirectToAction("RealizarActividad", new { id = actividad.Id });
 
-            var suriDbContext = _context.Actividades.Include(a => a.Localidad).Include(a => a.MyUser).Include(a => a.Prioridad).Where(x => x.Estado == true);
+            }
+            try
+            {
+                _context.Update(actividad);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(ActividadesAsignadasTecnico));
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ActividadesExists(actividad.Id))
+                {
+                    return View(actividad);
 
-
-            return View(model);
+                }
+                else
+                {
+                    throw;
+                }
+            }
+           
         }
 
 

@@ -4,99 +4,100 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<section class="jumbotron text-center bg-transparent">
+    <div class="container">
+        <h1 class="jumbotron-heading">MIS ACTIVIDADES REALIZADAS</h1>
 
-<p>
-    <a asp-action="Create">Nueva actividad</a>
-</p>
+    </div>
+</section>
+
 @if (Model.Any())
 {
 
     <h2>Buscador</h2>
     <input class="form-control" id="myInput" type="text" placeholder="Buscar..">
     <br>
-    <table class="table table-responsive">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Actividad)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FechaAsignacion)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Nota)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Asistente)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FechaRealizacion)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.accion)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Prioridad)
-                </th>
+    <div class="container-fluid table-responsive-sm">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Actividad)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FechaAsignacion)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Nota)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Asistente)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FechaRealizacion)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.accion)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Prioridad)
+                        </th>
 
-                <th>
-                    @Html.DisplayNameFor(model => model.Localidad)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MyUser)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody id="myTable">
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Actividad)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FechaAsignacion)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Nota)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Asistente)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FechaRealizacion)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.accion)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Prioridad.Name)
-                    </td>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Localidad)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.MyUser)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="myTable">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Actividad)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FechaAsignacion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nota)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Asistente)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FechaRealizacion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.accion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Prioridad.Name)
+                            </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Localidad.Nombre)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MyUser.UserName)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                </tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Localidad.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MyUser.UserName)
+                            </td>
 
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <div class="card mt-3">
-        <div class="card-body">
-            <h3>No hay actividades completadas</h3>
-        </div>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
     </div>
+        }
+        else
+        {
+        <div class="card mt-3">
+            <div class="card-body">
+                <h3>No hay actividades completadas</h3>
+            </div>
+        </div>
 
-}
+        }
