@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,14 +12,15 @@ using Suri.Models;
 
 namespace Suri.Controllers
 {
-    
+
 
     public class ActividadesController : Controller
     {
         private readonly SuriDbContext _context;
-
-        public ActividadesController(SuriDbContext context)
+        private readonly UserManager<MyUsers> userManager;
+        public ActividadesController(SuriDbContext context, UserManager<MyUsers> userManager)
         {
+            this.userManager = userManager;
             _context = context;
         }
 
@@ -26,7 +28,11 @@ namespace Suri.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ActividadesAsignadas()
         {
-            var suriDbContext = _context.Actividades.Include(a => a.Localidad).Include(a => a.MyUser).Include(a => a.Prioridad).Where(x => x.Estado == false);
+            var suriDbContext = _context.Actividades
+                .Include(a => a.Localidad)
+                .Include(a => a.MyUser)
+                .Include(a => a.Prioridad)
+                .Where(x => x.Estado == false);
 
             return View(await suriDbContext.ToListAsync());
         }
@@ -34,37 +40,55 @@ namespace Suri.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ActividadesRealizadas()
         {
-            var suriDbContext = _context.Actividades.Include(a => a.Localidad).Include(a => a.MyUser).Include(a => a.Prioridad).Where(x => x.Estado == true);
+            var suriDbContext = _context.Actividades
+                .Include(a => a.Localidad)
+                .Include(a => a.MyUser)
+                .Include(a => a.Prioridad)
+                .Where(x => x.Estado == true);
             return View(await suriDbContext.ToListAsync());
         }
 
         [Authorize(Roles = "Tecnico")]
         public async Task<IActionResult> ActividadesAsignadasTecnico()
         {
-            var suriDbContext = _context.Actividades.Include(a => a.Localidad).Include(a => a.MyUser).Include(a => a.Prioridad).Where(x => x.Estado == false);
+            string UserId = userManager.GetUserId(User);
+            var suriDbContext = _context.Actividades
+                .Include(a => a.Localidad)
+                .Include(a => a.MyUser)
+                .Include(a => a.Prioridad)
+                .Where(x => x.Estado == false && x.MyUserId == UserId);
             return View(await suriDbContext.ToListAsync());
         }
 
         [Authorize(Roles = "Tecnico")]
         public async Task<IActionResult> ActividadesRealizadasTecnico()
         {
-            var suriDbContext = _context.Actividades.Include(a => a.Localidad).Include(a => a.MyUser).Include(a => a.Prioridad).Where(x => x.Estado == true);
+            string UserId = userManager.GetUserId(User);
+            var suriDbContext = _context.Actividades
+                .Include(a => a.Localidad)
+                .Include(a => a.MyUser)
+                .Include(a => a.Prioridad)
+                .Where(x => x.Estado == true && x.MyUserId == UserId);
+
             return View(await suriDbContext.ToListAsync());
         }
 
         [Authorize(Roles = "Tecnico")]
         public async Task<IActionResult> RealizarActividad(int id)
         {
+            string UserId = userManager.GetUserId(User);
             var actividad = await _context.Actividades
              .Include(a => a.Localidad)
              .Include(a => a.MyUser)
              .Include(a => a.Prioridad)
+             .Where(x => x.Estado == false && x.MyUserId == UserId)
              .FirstOrDefaultAsync(m => m.Id == id);
 
-            if (actividad == null) {
+            if (actividad == null)
+            {
                 return NotFound();
             }
-             return View(actividad);
+            return View(actividad);
         }
 
         [HttpPost]
@@ -72,13 +96,18 @@ namespace Suri.Controllers
         public async Task<IActionResult> TerminarActividad(Actividades model)
         {
 
+            string UserId = userManager.GetUserId(User);
             var actividad = await _context.Actividades.FindAsync(model.Id);
 
             if (actividad == null)
             {
-                    return NotFound();
-                }
-          
+                return NotFound();
+            }
+            if (actividad.MyUserId != UserId)
+            {
+                return NotFound();
+            }
+
 
             actividad.Asistente = model.Asistente;
             actividad.FechaRealizacion = model.FechaRealizacion;
@@ -108,7 +137,7 @@ namespace Suri.Controllers
                     throw;
                 }
             }
-           
+
         }
 
 
@@ -149,7 +178,7 @@ namespace Suri.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Actividades actividades)
         {
-            
+
             if (ModelState.IsValid)
             {
                 _context.Add(actividades);
@@ -159,7 +188,7 @@ namespace Suri.Controllers
             ViewData["LocalidadId"] = new SelectList(_context.Set<Localidades>(), "Id", "Nombre", actividades.LocalidadId);
             ViewData["MyUserId"] = new SelectList(_context.Users, "Id", "UserName", actividades.MyUserId);
             ViewData["PrioridadId"] = new SelectList(_context.Prioridades.OrderByDescending(x => x.Id), "Id", "Name");
-                
+
             return View(actividades);
         }
 
