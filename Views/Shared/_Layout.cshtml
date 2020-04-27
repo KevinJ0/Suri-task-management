@@ -1,5 +1,6 @@
 ﻿@inject SignInManager<MyUsers> SignInManager;
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,7 +31,7 @@
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark " data-toggle="collapse" and data-target="#thetarget" style="width: 100%;">
 
 
-            <a asp-action="Index" asp-controller="Home" class="navbar-brand" id="title">
+            <a class="navbar-brand text-white" id="title">
                 Suri
             </a>
             @if (SignInManager.IsSignedIn(User))
@@ -90,28 +91,18 @@
 
 
                         <li class="nav-item">
-                            <a asp-controller="Account" asp-action="Logout" class="nav-link btn btn-link ml-lg-5 bg-danger text-light btn-sm" style="width:auto">
-                                Cerrar Sesión @User.Identity.Name
-                            </a>
+                            <form asp-action="Logout" asp-controller="Account" method="post">
+                                <button type="submit" asp-controller="Account" asp-action="Logout" class="nav-link btn btn-link ml-lg-5 bg-danger text-light btn-sm" style="width:auto">
+                                    Cerrar Sesión @User.Identity.Name
+                                </button>
+                            </form>
                         </li>
                     </ul>
 
                 </div>
 
             }
-            else
-            {
-                <ul class="navbar-nav ml-auto float-lg-right">
 
-                    <li class="nav-item">
-                        <a asp-controller="Account" asp-action="Login" class="nav-link btn btn-link bg-primary text-light btn-sm pl-3 pr-3" style="width:auto">
-                            Login
-                        </a>
-                    </li>
-                </ul>
-
-
-            }
         </nav>
     </header>
 

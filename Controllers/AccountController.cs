@@ -32,13 +32,27 @@ namespace Suri.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public async Task<IActionResult> Login()
         {
+            HttpContext.Session.Clear();
 
             if (signInManager.IsSignedIn(User))
             {
-                HttpContext.Session.Clear();
-                return RedirectToAction("Index", "Home");
+
+                if (User.IsInRole("Admin") || User.IsInRole("Administrador"))
+                {
+                    return RedirectToAction("ActividadesAsignadas", "Actividades");
+                }
+                else if (User.IsInRole("Tecnico"))
+                {
+                    return RedirectToAction("ActividadesAsignadasTecnico", "Actividades");
+                }
+                else {
+                    await signInManager.SignOutAsync();
+                    // return  No role assigned to this user
+                    return NotFound();
+                }
+           
             }
             return View();
 
@@ -49,26 +63,24 @@ namespace Suri.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 var result = await signInManager.PasswordSignInAsync(dto.UserName, dto.Password, false, false);
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Login", "Account");
                 }
-
-
             }
             ViewBag.ErrorInicioSeccion = "Usuario o contraseña incorrectos";
 
             return View(dto);
         }
+
         [AllowAnonymous] // when you have a global authorize on the class creater
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
         [Authorize(Roles = "Admin")]
         public IActionResult Register()

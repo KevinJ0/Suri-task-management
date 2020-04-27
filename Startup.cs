@@ -92,6 +92,7 @@ namespace Suri
                     name: "default",
                     template: "{controller=Account}/{action=login}");
             });
+           
         }
     }
 }
