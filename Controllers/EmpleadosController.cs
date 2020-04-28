@@ -274,7 +274,7 @@ namespace Suri.Controllers
         {
             var role = await roleManager.FindByIdAsync(roleId);
             ViewBag.roleId = roleId;
-            ViewBag.RoleName = role.Name;
+            ViewBag.RoleName = role.Name;   
             if (role == null)
             {
                 ViewBag.ErrorMessage = $"Role with Id = {roleId} cannot be found";

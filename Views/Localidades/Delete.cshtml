@@ -4,11 +4,10 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1 class="pt-3">BORRAR LOCALIDAD</h1>
+<h1 class="encabezado pt-lg-5">BORRAR LOCALIDAD</h1>
 
-<h3>¿Estas seguro de querer borrar esto?</h3>
-<div>
-    <h4>Localidades</h4>
+<div class="container">
+    <h3 class="pb-3">¿Estas seguro de querer borrar esto?</h3>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -33,7 +32,7 @@
 
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Borrar" class="btn btn-danger" /> |
+        <a asp-action="Index">Volver a la lista</a>
     </form>
 </div>

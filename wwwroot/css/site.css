@@ -106,13 +106,20 @@ body {
     }
 }
 
+@media screen and (max-width: 469px) {
+    .encabezado {
+    font-size: 7vw; 
+    }
+}
+
 @media screen and (max-width: 368px) {
     .logo-container img {
         width: 11.6vw;
         min-width: 40px;
-    }
 
-    .titulo {
+    }
+    
+        .titulo {
         font-size: 14px;
     }
 }

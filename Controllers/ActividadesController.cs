@@ -206,7 +206,7 @@ namespace Suri.Controllers
                 return NotFound();
             }
             ViewData["LocalidadId"] = new SelectList(_context.Set<Localidades>(), "Id", "Nombre", actividades.LocalidadId);
-            ViewData["MyUserId"] = new SelectList(_context.Users, "Id", "UserName", actividades.MyUserId);
+            ViewData["MyUserId"] = new SelectList(await userManager.GetUsersInRoleAsync("Tecnico"), "Id", "UserName", actividades.MyUserId);
             ViewData["PrioridadId"] = new SelectList(_context.Prioridades.OrderByDescending(x => x.Id), "Id", "Name");
             ViewBag.returnUrl = Request.Headers["Referer"].ToString();
 
@@ -245,7 +245,7 @@ namespace Suri.Controllers
                 return Redirect(returnUrl);
             }
             ViewData["LocalidadId"] = new SelectList(_context.Set<Localidades>(), "Id", "Nombre", actividades.LocalidadId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", actividades.MyUserId);
+            ViewData["UserId"] = new SelectList(await userManager.GetUsersInRoleAsync("Tecnico"), "Id", "UserName", actividades.MyUserId);
             ViewData["PrioridadId"] = new SelectList(_context.Prioridades.OrderByDescending(x => x.Id), "Id", "Name");
 
             return View(actividades);

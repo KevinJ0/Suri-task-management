@@ -4,13 +4,9 @@
     ViewData["Title"] = "Create";
 }
 
-<h1 class="pt-3">CREA NUEVA LOCALIDAD</h1>
+<h1 class="encabezado pt-lg-5">CREAR NUEVA LOCALIDAD</h1>
 
-
-<h4>Localidades</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div class="container">  
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -29,14 +25,14 @@
                 <span asp-validation-for="CeldaId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Crear" class="btn btn-primary" />
             </div>
         </form>
-    </div>
+     
+ 
+<div class="text-right">
+    <a   asp-action="Index">Volver a la lista</a>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
