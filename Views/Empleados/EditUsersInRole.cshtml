@@ -3,33 +3,34 @@
     ViewData["Title"] = "EditUsersInRole";
     var roleId = ViewBag.roleId;
 }
+<h1 class="encabezado pt-lg-5">EDITAR USUARIOS EN ROL</h1>
 
-<h1>EditUsersInRole</h1>
 <form method="post">
+    <div class="container">
 
-    <div class="card mb-3">
-        <div class="card-header">
-            Añade o remueve usuarios de este rol
-        </div>
-        
+        <div class="card mb-3">
+            <div class="card-header">
+                Añade o remueve usuarios de este rol <span class="text-primary alert-info">@ViewBag.RoleName</span>
+            </div>
 
-        <div class="card-body">
-            @for (int i = 0; i < Model.Count; i++)
-            {
-                <div class="form-check m-1">
-                    <input class="form-check-input" asp-for="@Model[i].IsSelected" />
-                    <label class="form-check-label" asp-for="@Model[i].IsSelected">
-                        @Model[i].UserName
-                    </label>
-                    <input type="hidden" asp-for="@Model[i].UserId" />
-                    <input type="hidden" asp-for="@Model[i].UserName" />
-                </div>
-            }
-        </div>
+            <div class="card-body">
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <div class="form-check m-1">
+                        <input class="form-check-input" asp-for="@Model[i].IsSelected" />
+                        <label class="form-check-label" asp-for="@Model[i].IsSelected">
+                            @Model[i].UserName
+                        </label>
+                        <input type="hidden" asp-for="@Model[i].UserId" />
+                        <input type="hidden" asp-for="@Model[i].UserName" />
+                    </div>
+                }
+            </div>
 
-        <div class="card-footer">
-            <input type="submit" asp-controller="Empleados" asp-route-roleId="@roleId" class="btn btn-outline-primary" style="width:auto;" value="Update" />
-            <a asp-controller="Empleados" asp-action="EditRole" asp-route-Id="@roleId" class="btn btn-outline-danger" style="width:auto;">Cancel</a>
+            <div class="card-footer">
+                <input type="submit" asp-controller="Empleados" asp-route-roleId="@roleId" class="btn btn-outline-primary" style="width:auto;" value="Update" />
+                <a asp-controller="Empleados" asp-action="EditRole" asp-route-Id="@roleId" class="btn btn-outline-danger" style="width:auto;">Cancel</a>
+            </div>
         </div>
     </div>
 </form>

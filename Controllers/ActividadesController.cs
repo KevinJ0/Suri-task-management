@@ -164,10 +164,10 @@ namespace Suri.Controllers
 
         [Authorize(Roles = "Admin")]
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             ViewData["LocalidadId"] = new SelectList(_context.Set<Localidades>(), "Id", "Nombre");
-            ViewData["MyUserId"] = new SelectList(_context.Users, "Id", "UserName");
+            ViewData["MyUserId"] = new SelectList(await userManager.GetUsersInRoleAsync("Tecnico"), "Id", "UserName");
             ViewData["PrioridadId"] = new SelectList(_context.Prioridades.OrderByDescending(x => x.Id), "Id", "Name");
             return View();
         }

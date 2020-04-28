@@ -274,7 +274,7 @@ namespace Suri.Controllers
         {
             var role = await roleManager.FindByIdAsync(roleId);
             ViewBag.roleId = roleId;
-
+            ViewBag.RoleName = role.Name;
             if (role == null)
             {
                 ViewBag.ErrorMessage = $"Role with Id = {roleId} cannot be found";
@@ -326,7 +326,6 @@ namespace Suri.Controllers
                 else if (!user.IsSelected && await userManager.IsInRoleAsync(MyUser, role.Name))
                 {
                     result = await userManager.RemoveFromRoleAsync(MyUser, role.Name);
-
                 }
                 else
                 {

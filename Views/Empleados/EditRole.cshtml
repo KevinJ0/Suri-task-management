@@ -3,6 +3,8 @@
     ViewData["Title"] = "EditRole";
 }
 
+<h1 class="encabezado pt-lg-5">EDITAR ROL</h1>
+
 <h1>@ViewBag.ErrorMessage</h1>
 
 <a asp-action="index"></a>
@@ -11,66 +13,66 @@
 <form asp-action="" class="mt-3" method="post">
 
 
-    <div class="form-group row">
-        <label asp-for="Id" class="col-sm-2 col-form-label"></label>
+     <div class="container">
+        <div class="form-group row">
+            <label asp-for="Id" class="col-sm-2 col-form-label"></label>
 
-        <div class="col-sm-10">
-            <input asp-for="Id" class="form-control" readonly="readonly" />
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label asp-for="RoleName" class="col-sm-2 col-form-label"></label>
-        <div class="col-sm-10">
-            <input asp-for="RoleName" class="form-control" />
-        </div>
-        <span asp-validation-for="RoleName" class="text-danger"></span>
-    </div>
-
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-
-    <div class="form-group row">
-        <div class="col-sm-10">
-
-            <input type="submit" value="Actualizar" class="btn btn-primary" />
-            <a asp-action="ListRoles" class="btn btn-danger">Cancelar</a>
-        </div>
-    </div>
-
-    <div class="card mb-3">
-        <div class="card-header">
-
-            <h3>Usuarios con este rol</h3>
+            <div class="col-sm-10">
+                <input asp-for="Id" class="form-control" readonly="readonly" />
+            </div>
         </div>
 
-        <div class="card-body">
-            @if (Model.Users.Any())
-            {
-                foreach (var user in Model.Users)
+        <div class="form-group row">
+            <label asp-for="RoleName" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="RoleName" class="form-control" />
+            </div>
+            <span asp-validation-for="RoleName" class="text-danger"></span>
+        </div>
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+        <div class="form-group row">
+            <div class="col-sm-10">
+
+                <input type="submit" value="Actualizar" class="btn btn-primary" />
+                <a asp-action="ListRoles" class="btn btn-danger">Cancelar</a>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header">
+
+                <h3>Usuarios con este rol</h3>
+            </div>
+
+            <div class="card-body">
+                @if (Model.Users.Any())
                 {
-                    <h5 class="card-tittle">@user</h5>
+                    foreach (var user in Model.Users)
+                    {
+                        <h5 class="card-tittle">@user</h5>
+
+                    }
 
                 }
+                else
+                {
+                    <div class="card-tittle">
 
-            }
-            else
-            {
-                <div class="card-tittle">
+                        <h5>No hay usuario en estos momentos</h5>
+                    </div>
 
-                    <h5>No hay usuario en estos momentos</h5>
-                </div>
+                }
+            </div>
 
-            }
+            <div class="card-footer">
+                <a asp-action="EditUsersInRole" asp-controller="Empleados" asp-route-roleId="@Model.Id" class="btn btn-primary" style="width:auto;">Añadir o remover usuario</a>
+            </div>
         </div>
-
-        <div class="card-footer">
-            <a asp-action="EditUsersInRole" asp-controller="Empleados" asp-route-roleId="@Model.Id" class="btn btn-primary" style="width:auto;">Añadir o remover usuario</a>
         </div>
-    </div>
-
-
-
+     
 </form>
 
 
