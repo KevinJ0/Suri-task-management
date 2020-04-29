@@ -91,6 +91,9 @@ body {
     width: 50px;
 }
 
+thead {
+    background-color: rgba(227,73,73, 0.27) ;
+}
 @media screen and (min-width: 992px) {
     #logout-btn, #login-btn {
         margin-top: auto !important;
@@ -106,9 +109,9 @@ body {
     }
 }
 
-@media screen and (max-width: 469px) {
+@media screen and (max-width: 492px) {
     .encabezado {
-    font-size: 7vw; 
+    font-size: 6.5vw; 
     }
 }
 

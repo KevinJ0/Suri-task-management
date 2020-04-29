@@ -3,9 +3,11 @@
 @{
     ViewData["Title"] = "All Users";
 }
- 
+
 
 <h1 class="encabezado pt-lg-5">LISTA DE USUARIOS</h1>
+<div class="alert-danger">@ViewBag.ErrorUserInRole</div>
+
 <div class="container">
     @if (Model.Any())
     {
@@ -49,6 +51,4 @@
 
     }
 
-
-
-    </div>
+</div>

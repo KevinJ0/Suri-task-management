@@ -5,25 +5,25 @@
 }
 
 
-    <h1 class="encabezado pt-lg-5">CREAR NUEVO ROL</h1>
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="CreateRole">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="RoleName" class="control-label"></label>
-                <input asp-for="RoleName" class="form-control" />
-                <span asp-validation-for="RoleName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Crear rol" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+<h1 class="encabezado pt-lg-5">CREAR NUEVO ROL</h1>
 
-<div>
-    <a class="float-right" asp-action="ListRoles">Volver a la lista</a>
+<div class="container">
+
+    <form asp-action="CreateRole">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="RoleName" class="control-label"></label>
+            <input asp-for="RoleName" class="form-control" />
+            <span asp-validation-for="RoleName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Crear rol" class="btn btn-primary" />
+        </div>
+    </form>
+
+    <div>
+        <a class="float-right" asp-action="ListRoles">Volver a la lista</a>
+    </div>
 </div>
 
 @section Scripts {

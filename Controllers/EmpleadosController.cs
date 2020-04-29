@@ -235,7 +235,7 @@ namespace Suri.Controllers
 
 
         [Authorize(Roles = "Admin")]
-        
+
         [HttpPost]
         public async Task<IActionResult> DeleteUser(string id)
         {
@@ -248,24 +248,33 @@ namespace Suri.Controllers
             }
             else
             {
-                var result = await userManager.DeleteAsync(user);
-
-                if (result.Succeeded)
+                try
                 {
-                    return RedirectToAction("ListUsers");
+                    var result = await userManager.DeleteAsync(user);
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("ListUsers");
+                    }
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
+                catch (Exception e)
+                {
+                    ViewBag.ErrorUserInRole = "Este usuario pertenece a un rol o varios roles. Debe desvicularlo de cuyo rol(es) para poder eliminarlo.";
+                    return RedirectToAction("ListUsers", new { ViewBag.ErrorUserInRole });
+
                 }
 
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
 
                 return View("ListUsers");
             }
 
         }
 
-            private bool ActividadesExists(int id)
+        private bool ActividadesExists(int id)
         {
             return _context.Actividades.Any(e => e.Id == id);
         }
@@ -274,7 +283,7 @@ namespace Suri.Controllers
         {
             var role = await roleManager.FindByIdAsync(roleId);
             ViewBag.roleId = roleId;
-            ViewBag.RoleName = role.Name;   
+            ViewBag.RoleName = role.Name;
             if (role == null)
             {
                 ViewBag.ErrorMessage = $"Role with Id = {roleId} cannot be found";

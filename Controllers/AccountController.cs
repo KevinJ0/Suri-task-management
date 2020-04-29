@@ -21,7 +21,7 @@ namespace Suri.Controllers
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly SignInManager<MyUsers> signInManager;
 
-     
+
 
         public AccountController(SignInManager<MyUsers> signInManager, SuriDbContext context, UserManager<MyUsers> userManager, RoleManager<IdentityRole> roleManager)
         {
@@ -34,25 +34,40 @@ namespace Suri.Controllers
         [HttpGet]
         public async Task<IActionResult> Login()
         {
-            HttpContext.Session.Clear();
+            // if there's no Users or Roles created.
+            if (!_context.UserRoles.Any())
+            {
+                IdentityRole identityRole = new IdentityRole { Name = "Admin" };
+                await roleManager.CreateAsync(identityRole);
+            }
+            if (!_context.Users.Any())
+            {
+                var user = new MyUsers { UserName = "Administrador" };
+                await userManager.CreateAsync(user, "SURImanagement1@!");
+                var role = roleManager.Roles.FirstOrDefault(x => x.Name == "Admin");
+                user = _context.Users.FirstOrDefault(x => x.UserName == "Administrador");
+                await userManager.AddToRoleAsync(user, role.Name);
+            }
+            //////-------------
 
+
+            HttpContext.Session.Clear();
             if (signInManager.IsSignedIn(User))
             {
 
                 if (User.IsInRole("Admin") || User.IsInRole("Administrador"))
-                {
                     return RedirectToAction("ActividadesAsignadas", "Actividades");
-                }
+
                 else if (User.IsInRole("Tecnico"))
-                {
                     return RedirectToAction("ActividadesAsignadasTecnico", "Actividades");
-                }
-                else {
+
+                else
+                {
                     await signInManager.SignOutAsync();
                     // return  No role assigned to this user
                     return NotFound();
                 }
-           
+
             }
             return View();
 
@@ -98,26 +113,20 @@ namespace Suri.Controllers
 
                 if (result.Succeeded)
                 {
-
                     return RedirectToAction("ListUsers", "Empleados");
                 }
-                else {
-
-                    ModelState.AddModelError("ErrorExist","Este usuario ya se encuentra registrado");
+                else
+                {
+                    ModelState.AddModelError("ErrorExist", "Este usuario ya se encuentra registrado");
                 }
-
 
             }
             else
             {
-
-                ModelState.AddModelError("ErrorExist", "Este Modelo no es valido");
-
-
+                ModelState.AddModelError("ErrorExist", "Este modelo no es valido");
             }
 
             return View(dto);
-
         }
         [HttpGet]
         [AllowAnonymous]
