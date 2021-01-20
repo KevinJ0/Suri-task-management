@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Suri.Data;
 using Suri.Models;
 
 namespace Suri
@@ -22,6 +23,7 @@ namespace Suri
         private readonly UserManager<MyUsers> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly SignInManager<MyUsers> signInManager;
+        private readonly SuriDbContext _context;
 
         public Startup(IConfiguration configuration)
         {
@@ -96,7 +98,8 @@ namespace Suri
                     name: "default",
                     template: "{controller=Account}/{action=login}");
             });
-            
+
+         
         }
     }
 }

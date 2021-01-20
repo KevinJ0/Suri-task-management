@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Suri.Data;
 using Suri.DTO;
 using Suri.Models;
 
@@ -40,13 +41,21 @@ namespace Suri.Controllers
                 IdentityRole identityRole = new IdentityRole { Name = "Admin" };
                 await roleManager.CreateAsync(identityRole);
             }
-            if (!_context.Users.Any())
-            {
+            if (!_context.Users.Any()) { 
                 var user = new MyUsers { UserName = "Administrador" };
-                await userManager.CreateAsync(user, "SURImanagement1@!");
-                var role = roleManager.Roles.FirstOrDefault(x => x.Name == "Admin");
+            await userManager.CreateAsync(user, "SURImanagement1@!");
+            var role = roleManager.Roles.FirstOrDefault(x => x.Name == "Admin");
                 user = _context.Users.FirstOrDefault(x => x.UserName == "Administrador");
                 await userManager.AddToRoleAsync(user, role.Name);
+        }
+
+            if (!_context.Prioridades.Any())
+            {
+
+                _context.Prioridades.Add(new Prioridades { Name = "Alto" });
+                _context.Prioridades.Add(new Prioridades { Name = "Medio" });
+                _context.Prioridades.Add(new Prioridades { Name = "Bajo" });
+                var result = await _context.SaveChangesAsync();
             }
             //////-------------
 

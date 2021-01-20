@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Suri.Data;
 using Suri.DTO;
 using Suri.Models;
 
@@ -43,18 +44,21 @@ namespace Suri.Controllers
             var users = userManager.Users;
             return View(users);
         }
+
         [Authorize(Roles = "Admin")]
         public IActionResult ListRoles()
         {
             var roles = roleManager.Roles;
             return View(roles);
         }
+
         [Authorize(Roles = "Admin")]
         // GET: Role/Create
         public IActionResult CreateRole()
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> CreateRole(CreateRoleDTO model)
         {
@@ -200,8 +204,6 @@ namespace Suri.Controllers
         }
 
         // POST: Actividades/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditUser(EditUserDTO model)
